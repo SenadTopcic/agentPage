@@ -16,8 +16,8 @@ export default function Home() {
       <Hero />
       <Stats />
       <Features />
-      <Capabilities />
       <Industries />
+      <Capabilities />
       <HowItWorks />
       <FAQ />
       <DemoForm />

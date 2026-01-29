@@ -47,10 +47,10 @@ export default function HowItWorks() {
   ]
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-amber-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-block px-4 py-2 bg-white text-bronze rounded-full text-sm font-medium mb-4 shadow-sm">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-20">
+          <div className="inline-block px-4 py-2 bg-amber-100 text-bronze rounded-full text-sm font-medium mb-4">
             HOW IT WORKS
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
@@ -61,33 +61,47 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {steps.map((step, index) => {
-            const Icon = step.icon
-            return (
-              <div
-                key={index}
-                className="relative group"
-              >
-                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 h-full">
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-5xl font-bold text-gray-200 group-hover:text-gray-300 transition-colors">
-                      {step.number}
-                    </span>
-                    <div className={`w-12 h-12 bg-gradient-to-br ${step.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="text-white" size={24} />
+        <div className="relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-gold via-accent-600 to-gold hidden lg:block" />
+          
+          <div className="space-y-12">
+            {steps.map((step, index) => {
+              const Icon = step.icon
+              const isEven = index % 2 === 0
+              
+              return (
+                <div
+                  key={index}
+                  className={`relative flex items-center ${
+                    isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                  } flex-col gap-8`}
+                >
+                  <div className={`flex-1 ${isEven ? 'lg:text-right lg:pr-12' : 'lg:text-left lg:pl-12'}`}>
+                    <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 group">
+                      <div className={`flex items-center gap-4 mb-4 ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} flex-row`}>
+                        <div className={`w-16 h-16 bg-gradient-to-br ${step.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className="text-white" size={28} />
+                        </div>
+                        <div>
+                          <div className="text-sm font-bold text-gray-400 mb-1">{step.number}</div>
+                          <h3 className="text-2xl font-bold text-gray-900">
+                            {step.title}
+                          </h3>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 leading-relaxed text-lg">
+                        {step.description}
+                      </p>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {step.description}
-                  </p>
+
+                  <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-4 border-gold rounded-full shadow-lg z-10" />
+
+                  <div className="flex-1 hidden lg:block" />
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
