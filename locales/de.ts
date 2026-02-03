@@ -24,6 +24,7 @@ export const de: Translations = {
   features: {
     badge: 'FUNKTIONEN',
     title: 'Warum Ethan?',
+    featureLabel: 'Funktion',
     feature1Title: 'Jeder Anruf wird beantwortet',
     feature1Desc: 'Mit einem Kunden beschäftigt? Es ist 2 Uhr nachts? Ethan nimmt sofort ab. Keine Mailbox mehr, die sich füllt, und keine frustrierten Anrufer, die auflegen.',
     feature2Title: 'Ihr Team erledigt die wichtige Arbeit',
