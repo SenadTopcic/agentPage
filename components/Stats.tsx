@@ -1,29 +1,33 @@
+'use client'
+
 import { Clock, Zap, Globe, CheckCircle } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Stats() {
+  const { t } = useTranslation()
   const stats = [
     {
       icon: Clock,
       value: '24/7',
-      label: 'Always Available',
+      label: t.stats.alwaysAvailable,
       color: 'from-gold to-accent-600',
     },
     {
       icon: Zap,
       value: '<1s',
-      label: 'Average Response Time',
+      label: t.stats.responseTime,
       color: 'from-amber-500 to-orange-500',
     },
     {
       icon: Globe,
       value: '15+',
-      label: 'Languages Supported',
+      label: t.stats.languagesSupported,
       color: 'from-orange-500 to-amber-600',
     },
     {
       icon: CheckCircle,
       value: '99.9%',
-      label: 'Calls Answered Automatically',
+      label: t.stats.callsAnswered,
       color: 'from-green-500 to-green-600',
     },
   ]

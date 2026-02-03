@@ -2,8 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
+import LanguageSwitcher from './LanguageSwitcher'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Navigation() {
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -16,10 +20,11 @@ export default function Navigation() {
   }, [])
 
   const navLinks = [
-    { href: '#features', label: 'Features' },
-    { href: '#capabilities', label: 'Capabilities' },
-    { href: '#industries', label: 'Industries' },
-    { href: '#faq', label: 'FAQ' },
+    { href: '#features', label: t.nav.features },
+    { href: '#industries', label: t.nav.industries },
+    { href: '#capabilities', label: t.nav.capabilities },
+    { href: '#how-it-works', label: t.nav.howItWorks },
+    { href: '#faq', label: t.nav.faq },
   ]
 
   const scrollToSection = (href: string) => {
@@ -38,12 +43,16 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-gold to-bronze rounded-full flex items-center justify-center shadow-md border-2 border-gold/30">
-              <span className="text-white font-bold text-xl">E</span>
-            </div>
+          <div className="flex items-center gap-3">
+            <Image 
+              src="/images/logo.png" 
+              alt="Ethan Logo" 
+              width={40} 
+              height={40} 
+              className="object-contain"
+            />
             <div className="flex flex-col">
-              <span className="text-2xl font-bold bg-gradient-to-r from-gold via-accent-500 to-bronze bg-clip-text text-transparent leading-tight">
+              <span className="text-2xl font-semibold font-cinzel text-gold leading-tight drop-shadow-md">
                 ETHAN
               </span>
               <span className="text-[10px] text-gray-500 font-medium tracking-wide -mt-1">
@@ -52,7 +61,7 @@ export default function Navigation() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <button
                 key={link.href}
@@ -62,11 +71,12 @@ export default function Navigation() {
                 {link.label}
               </button>
             ))}
+            <LanguageSwitcher />
             <button
               onClick={() => scrollToSection('#demo')}
               className="bg-gradient-to-r from-gold to-accent-600 text-white px-6 py-2.5 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-medium shadow-md"
             >
-              Request Demo
+              {t.nav.requestDemo}
             </button>
           </div>
 
@@ -93,11 +103,14 @@ export default function Navigation() {
                 {link.label}
               </button>
             ))}
+            <div className="flex justify-center py-2">
+              <LanguageSwitcher />
+            </div>
             <button
               onClick={() => scrollToSection('#demo')}
               className="block w-full bg-gradient-to-r from-gold to-accent-600 text-white px-4 py-3 rounded-lg hover:shadow-xl transition-all font-medium shadow-md"
             >
-              Request Demo
+              {t.nav.requestDemo}
             </button>
           </div>
         </div>

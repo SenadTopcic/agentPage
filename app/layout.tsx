@@ -1,8 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Cinzel } from 'next/font/google'
 import './globals.css'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 
 const inter = Inter({ subsets: ['latin'] })
+const cinzel = Cinzel({ 
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-cinzel',
+})
 
 export const metadata: Metadata = {
   title: 'Ethan - Enterprise AI Voice Agent | 24/7 Call Handling',
@@ -22,7 +28,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} ${cinzel.variable}`}>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   )
 }

@@ -1,84 +1,93 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Hotel, Stethoscope, UtensilsCrossed, ShoppingBag, Briefcase, Headphones, Building2, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Industries() {
+  const { t } = useTranslation()
   const industries = [
     {
       icon: Hotel,
-      title: 'Hospitality',
-      description: 'Hotels, resorts and spas. Booking inquiries, policy questions, room availability, and 24/7 reception.',
-      details: 'Ethan handles reservation requests, answers questions about amenities, room types, and policies. Provides instant responses about availability, pricing, and special offers. Can take bookings, process cancellations, and handle after-hours inquiries without missing a beat.',
+      title: t.industries.hospitality.title,
+      description: t.industries.hospitality.desc,
+      details: t.industries.hospitality.details,
       color: 'from-gold to-accent-600',
-      image: '/images/hospitality.png',
+      image: '/images/hospitality.avif',
     },
     {
       icon: Stethoscope,
-      title: 'Healthcare',
-      description: 'Clinics. Appointment scheduling, reminders, directions, and patient routing.',
-      details: 'Streamline patient communication with automated appointment scheduling, prescription refill requests, and general inquiries. Ethan can verify insurance information, provide directions, and route urgent matters to the appropriate medical staff.',
+      title: t.industries.healthcare.title,
+      description: t.industries.healthcare.desc,
+      details: t.industries.healthcare.details,
       color: 'from-amber-500 to-orange-500',
-      image: '/images/healthcare.png',
+      image: '/images/healthcare.avif',
     },
     {
       icon: UtensilsCrossed,
-      title: 'Restaurants',
-      description: 'Reservations, opening hours, menu questions, and special requests.',
-      details: 'Take reservations, answer menu questions, handle dietary restrictions, and manage waitlist inquiries. Ethan can inform customers about daily specials, operating hours, and handle large party bookings with ease.',
+      title: t.industries.restaurants.title,
+      description: t.industries.restaurants.desc,
+      details: t.industries.restaurants.details,
       color: 'from-orange-600 to-amber-700',
-      image: '/images/restaurant.png',
+      image: '/images/restaurant.avif',
     },
     {
       icon: ShoppingBag,
-      title: 'E-commerce & Retail',
-      description: 'Online stores and retail chains. Order status, returns, product questions, and customer support.',
-      details: 'Provide instant order tracking, handle return and exchange requests, answer product questions, and manage customer inquiries. Ethan can process simple requests and escalate complex issues to your team.',
+      title: t.industries.retail.title,
+      description: t.industries.retail.desc,
+      details: t.industries.retail.details,
       color: 'from-purple-500 to-violet-600',
-      image: '/images/retail.png',
+      image: '/images/retail.avif',
     },
     {
       icon: Briefcase,
-      title: 'Professional Services',
-      description: 'Law firms, agencies and consultancies. Client intake, scheduling, document requests, and billing support.',
-      details: 'Manage client intake, schedule consultations, collect preliminary information, and answer common questions about your services. Ethan can handle billing inquiries and route specialized requests to the right team member.',
+      title: t.industries.professional.title,
+      description: t.industries.professional.desc,
+      details: t.industries.professional.details,
       color: 'from-indigo-500 to-blue-600',
-      image: '/images/professional.png',
+      image: '/images/professional.avif',
     },
     {
       icon: Headphones,
-      title: 'Customer Support',
-      description: 'FAQ handling, status checks, message taking, and intelligent triage.',
-      details: 'Answer frequently asked questions, check order or ticket status, take detailed messages, and intelligently route calls based on complexity. Ethan ensures no customer inquiry goes unanswered, even during peak hours.',
+      title: t.industries.support.title,
+      description: t.industries.support.desc,
+      details: t.industries.support.details,
       color: 'from-green-500 to-emerald-600',
-      image: '/images/support.png',
+      image: '/images/support.avif',
     },
     {
       icon: Building2,
-      title: 'Any Customer-Facing Business',
-      description: 'If you take calls, Ethan can handle them. Fully customized to your workflows and systems.',
-      details: 'Whatever your industry, if you interact with customers by phone, Ethan can be customized to handle your specific workflows, terminology, and business processes. We build the solution around your needs.',
+      title: t.industries.business.title,
+      description: t.industries.business.desc,
+      details: t.industries.business.details,
       color: 'from-gray-600 to-gray-700',
-      image: '/images/business.png',
+      image: '/images/business.avif',
     },
   ]
 
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % industries.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + industries.length) % industries.length)
-  }
-
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
+    if (isAnimating || index === currentSlide) return
+    
+    setIsAnimating(true)
     setCurrentSlide(index)
-    setIsAutoPlaying(false)
-  }
+    
+    setTimeout(() => {
+      setIsAnimating(false)
+    }, 600)
+  }, [currentSlide, isAnimating])
+
+  const nextSlide = useCallback(() => {
+    goToSlide((currentSlide + 1) % industries.length)
+  }, [currentSlide, industries.length, goToSlide])
+
+  const prevSlide = useCallback(() => {
+    goToSlide((currentSlide - 1 + industries.length) % industries.length)
+  }, [currentSlide, industries.length, goToSlide])
 
   useEffect(() => {
     if (!isAutoPlaying) return
@@ -88,106 +97,257 @@ export default function Industries() {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isAutoPlaying, currentSlide])
+  }, [isAutoPlaying, nextSlide])
 
   return (
-    <section id="industries" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-amber-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-block px-4 py-2 bg-white text-bronze rounded-full text-sm font-medium mb-4 shadow-sm">
-            INDUSTRIES
+    <section id="industries" className="h-[100svh] lg:h-auto py-3 lg:py-20 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-amber-50 flex flex-col">
+      <div className="max-w-7xl mx-auto w-full h-full flex flex-col lg:block">
+        
+        {/* Header - 20% on mobile */}
+        <div className="h-[18%] lg:h-auto flex flex-col justify-center text-center lg:mb-12 shrink-0">
+          <div className="inline-block px-3 py-1 lg:px-4 lg:py-2 bg-white text-bronze rounded-full text-xs lg:text-sm font-medium mb-1 lg:mb-4 shadow-sm mx-auto">
+            {t.industries.badge}
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Ideal For
+          <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-900 mb-1 lg:mb-4">
+            {t.industries.title}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mt-6">
-            Discover how Ethan transforms customer communication across industries
+          <p className="text-xs sm:text-sm lg:text-xl text-gray-600 max-w-3xl mx-auto px-2 line-clamp-2 lg:line-clamp-none lg:mt-6">
+            {t.industries.description}
           </p>
         </div>
 
-        <div className="relative">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <div className="relative">
-              <div className="grid lg:grid-cols-2 gap-0">
-                <div className="relative h-[400px] lg:h-auto overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${industries[currentSlide].color} opacity-20 z-10 transition-opacity duration-500`} />
+        {/* Slider Card - 82% on mobile */}
+        <div className="h-[82%] lg:h-auto flex flex-col shrink-0">
+          
+          {/* MOBILE LAYOUT */}
+          <div className="lg:hidden bg-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
+            
+            {/* Image - 30% of card */}
+            <div className="h-[30%] relative shrink-0">
+              {industries.map((industry, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                    index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${industry.color} opacity-20 z-10`} />
                   <Image
-                    key={currentSlide}
-                    src={industries[currentSlide].image}
-                    alt={industries[currentSlide].title}
+                    src={industry.image}
+                    alt={industry.title}
                     fill
-                    className="object-cover transition-transform duration-700 ease-in-out"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700"
+                    sizes="100vw"
+                    priority={index === 0}
                   />
                 </div>
-                
-                <div className="p-8 sm:p-12 flex flex-col justify-center min-h-[400px]">
-                  <div className={`inline-flex items-center gap-3 mb-6 w-fit px-4 py-2 rounded-full bg-gradient-to-r ${industries[currentSlide].color} transition-all duration-500`}>
-                    {(() => {
-                      const Icon = industries[currentSlide].icon
-                      return <Icon className="text-white" size={24} />
-                    })()}
-                    <span className="text-white font-bold">{industries[currentSlide].title}</span>
-                  </div>
-                  
-                  <h3 className="text-3xl font-bold text-gray-900 mb-4 transition-opacity duration-500">
-                    {industries[currentSlide].description}
-                  </h3>
-                  
-                  <p className="text-lg text-gray-600 leading-relaxed transition-opacity duration-500">
-                    {industries[currentSlide].details}
-                  </p>
-                </div>
-              </div>
-
+              ))}
+              
+              {/* Navigation arrows */}
               <button
-                onClick={() => {
-                  prevSlide()
-                  setIsAutoPlaying(false)
-                }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20 group"
+                onClick={() => { prevSlide(); setIsAutoPlaying(false) }}
+                disabled={isAnimating}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full shadow-lg flex items-center justify-center z-20 disabled:opacity-50 transition-all duration-300 active:scale-95"
                 aria-label="Previous slide"
               >
-                <ChevronLeft className="text-gray-800 group-hover:text-gold transition-colors" size={24} />
+                <ChevronLeft className="text-gray-800" size={18} />
               </button>
-
               <button
-                onClick={() => {
-                  nextSlide()
-                  setIsAutoPlaying(false)
-                }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20 group"
+                onClick={() => { nextSlide(); setIsAutoPlaying(false) }}
+                disabled={isAnimating}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full shadow-lg flex items-center justify-center z-20 disabled:opacity-50 transition-all duration-300 active:scale-95"
                 aria-label="Next slide"
               >
-                <ChevronRight className="text-gray-800 group-hover:text-gold transition-colors" size={24} />
+                <ChevronRight className="text-gray-800" size={18} />
               </button>
+            </div>
+            
+            {/* Content - 55% of card */}
+            <div className="h-[55%] relative overflow-hidden shrink-0">
+              {industries.map((industry, index) => {
+                const Icon = industry.icon
+                return (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 p-4 flex flex-col transition-all duration-500 ease-out ${
+                      index === currentSlide 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-4 pointer-events-none'
+                    }`}
+                  >
+                    <div className={`inline-flex items-center gap-2 mb-2 w-fit px-3 py-1.5 rounded-full bg-gradient-to-r ${industry.color}`}>
+                      <Icon className="text-white" size={14} />
+                      <span className="text-white font-bold text-xs">{industry.title}</span>
+                    </div>
+                    
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">
+                      {industry.description}
+                    </h3>
+                    
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-4 flex-1">
+                      {industry.details}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
+            
+            {/* Dots - 15% of card */}
+            <div className="h-[15%] flex justify-center items-center gap-1.5 px-2 shrink-0">
+              {industries.map((industry, index) => {
+                const Icon = industry.icon
+                return (
+                  <button
+                    key={index}
+                    onClick={() => { goToSlide(index); setIsAutoPlaying(false) }}
+                    disabled={isAnimating}
+                    className={`relative transition-all duration-500 ease-out ${
+                      currentSlide === index ? 'w-9 h-9 scale-110' : 'w-7 h-7'
+                    } rounded-full shadow-md flex items-center justify-center overflow-hidden`}
+                    aria-label={`Go to ${industry.title}`}
+                  >
+                    <div className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? 'opacity-100' : 'opacity-0'} bg-gradient-to-r from-gold to-accent-600`} />
+                    <div className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? 'opacity-0' : 'opacity-100'} bg-white`} />
+                    
+                    {/* Progress ring for mobile */}
+                    {currentSlide === index && isAutoPlaying && (
+                      <svg className="absolute inset-0 w-full h-full -rotate-90">
+                        <circle cx="50%" cy="50%" r="45%" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+                        <circle
+                          cx="50%" cy="50%" r="45%" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"
+                          style={{ strokeDasharray: '283', strokeDashoffset: '283', animation: 'progress-ring 5s linear forwards' }}
+                        />
+                      </svg>
+                    )}
+                    
+                    <Icon className={`relative z-10 transition-colors duration-500 ${currentSlide === index ? 'text-white' : 'text-gray-600'}`} size={currentSlide === index ? 14 : 12} />
+                  </button>
+                )
+              })}
             </div>
           </div>
 
-          <div className="flex justify-center gap-3 mt-8">
-            {industries.map((industry, index) => {
-              const Icon = industry.icon
-              return (
+          {/* DESKTOP LAYOUT - Original */}
+          <div className="hidden lg:block">
+            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+              <div className="relative">
+                <div className="grid lg:grid-cols-2 gap-0">
+                  {/* Image section */}
+                  <div className="relative h-[500px] overflow-hidden">
+                    {industries.map((industry, index) => (
+                      <div
+                        key={index}
+                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                          index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                        }`}
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${industry.color} opacity-20 z-10`} />
+                        <Image
+                          src={industry.image}
+                          alt={industry.title}
+                          fill
+                          className="object-cover"
+                          sizes="50vw"
+                          priority={index === 0}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Content section */}
+                  <div className="p-8 sm:p-12 flex flex-col justify-center min-h-[500px] relative overflow-hidden">
+                    {industries.map((industry, index) => {
+                      const Icon = industry.icon
+                      return (
+                        <div
+                          key={index}
+                          className={`transition-all duration-500 ease-out ${
+                            index === currentSlide 
+                              ? 'opacity-100 translate-y-0 relative' 
+                              : 'opacity-0 translate-y-4 absolute inset-0 p-8 sm:p-12 pointer-events-none flex flex-col justify-center'
+                          }`}
+                        >
+                          <div className={`inline-flex items-center gap-3 mb-6 w-fit px-4 py-2 rounded-full bg-gradient-to-r ${industry.color}`}>
+                            <Icon className="text-white" size={24} />
+                            <span className="text-white font-bold">{industry.title}</span>
+                          </div>
+                          
+                          <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                            {industry.description}
+                          </h3>
+                          
+                          <p className="text-lg text-gray-600 leading-relaxed">
+                            {industry.details}
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Navigation arrows */}
                 <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`transition-all duration-300 ${
-                    currentSlide === index
-                      ? 'w-12 h-12 bg-gradient-to-r from-gold to-accent-600 scale-110'
-                      : 'w-10 h-10 bg-white hover:bg-gray-100'
-                  } rounded-full shadow-md hover:shadow-lg flex items-center justify-center`}
-                  aria-label={`Go to ${industry.title}`}
+                  onClick={() => { prevSlide(); setIsAutoPlaying(false) }}
+                  disabled={isAnimating}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20 group disabled:opacity-50"
+                  aria-label="Previous slide"
                 >
-                  <Icon 
-                    className={currentSlide === index ? 'text-white' : 'text-gray-600'} 
-                    size={currentSlide === index ? 20 : 18} 
-                  />
+                  <ChevronLeft className="text-gray-800 group-hover:text-gold transition-colors" size={24} />
                 </button>
-              )
-            })}
+
+                <button
+                  onClick={() => { nextSlide(); setIsAutoPlaying(false) }}
+                  disabled={isAnimating}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20 group disabled:opacity-50"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="text-gray-800 group-hover:text-gold transition-colors" size={24} />
+                </button>
+              </div>
+            </div>
+
+            {/* Desktop dot indicators */}
+            <div className="flex justify-center gap-3 mt-8">
+              {industries.map((industry, index) => {
+                const Icon = industry.icon
+                return (
+                  <button
+                    key={index}
+                    onClick={() => { goToSlide(index); setIsAutoPlaying(false) }}
+                    disabled={isAnimating}
+                    className={`relative transition-all duration-500 ease-out ${
+                      currentSlide === index ? 'w-12 h-12 scale-110' : 'w-10 h-10 hover:scale-105'
+                    } rounded-full shadow-md hover:shadow-lg flex items-center justify-center disabled:cursor-not-allowed overflow-hidden`}
+                    aria-label={`Go to ${industry.title}`}
+                  >
+                    <div className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? 'opacity-100' : 'opacity-0'} bg-gradient-to-r from-gold to-accent-600`} />
+                    <div className={`absolute inset-0 transition-opacity duration-500 ${currentSlide === index ? 'opacity-0' : 'opacity-100'} bg-white`} />
+                    
+                    {currentSlide === index && isAutoPlaying && (
+                      <svg className="absolute inset-0 w-full h-full -rotate-90">
+                        <circle cx="50%" cy="50%" r="45%" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+                        <circle
+                          cx="50%" cy="50%" r="45%" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"
+                          style={{ strokeDasharray: '283', strokeDashoffset: '283', animation: 'progress-ring 5s linear forwards' }}
+                        />
+                      </svg>
+                    )}
+                    
+                    <Icon className={`relative z-10 transition-colors duration-500 ${currentSlide === index ? 'text-white' : 'text-gray-600'}`} size={currentSlide === index ? 20 : 18} />
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes progress-ring {
+          from { stroke-dashoffset: 283; }
+          to { stroke-dashoffset: 0; }
+        }
+      `}</style>
     </section>
   )
 }

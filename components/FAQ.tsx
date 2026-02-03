@@ -2,26 +2,28 @@
 
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function FAQ() {
+  const { t } = useTranslation()
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   const faqs = [
     {
-      question: 'Will it replace my staff?',
-      answer: 'Ethan handles the majority of routine calls so your team can focus on complex, sensitive, or VIP interactions. Most companies use Ethan to reduce staffing pressure while maintaining service quality.',
+      question: t.faq.q1,
+      answer: t.faq.a1,
     },
     {
-      question: 'Can we control what Ethan says?',
-      answer: 'Yes. You can set tone, policies, boundaries, and role behavior—so the AI stays aligned with your business guidelines and brand voice.',
+      question: t.faq.q2,
+      answer: t.faq.a2,
     },
     {
-      question: 'What happens if Ethan can\'t help?',
-      answer: 'Ethan can route calls to a human, take a message, or offer next steps based on your escalation rules. Sensitive, unusual, or complex requests are safely transferred to your team.',
+      question: t.faq.q3,
+      answer: t.faq.a3,
     },
     {
-      question: 'Does it work in multiple languages?',
-      answer: 'Yes. Ethan supports multilingual conversations, enabling consistent service for international customers without hiring multilingual staff.',
+      question: t.faq.q4,
+      answer: t.faq.a4,
     },
   ]
 
@@ -30,10 +32,10 @@ export default function FAQ() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-2 bg-amber-100 text-bronze rounded-full text-sm font-medium mb-4">
-            FAQ
+            {t.faq.badge}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Common Questions
+            {t.faq.title}
           </h2>
         </div>
 

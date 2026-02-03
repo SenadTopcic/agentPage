@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        cinzel: ['var(--font-cinzel)', 'serif'],
+      },
       colors: {
         primary: {
           50: '#fefbf3',
@@ -47,6 +50,7 @@ module.exports = {
         'fade-in': 'fadeIn 0.6s ease-in-out',
         'slide-up': 'slideUp 0.6s ease-out',
         'float': 'float 3s ease-in-out infinite',
+        'sound-wave': 'soundWave 0.4s ease-in-out infinite alternate',
       },
       keyframes: {
         fadeIn: {
@@ -60,6 +64,10 @@ module.exports = {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        soundWave: {
+          '0%': { height: '4px' },
+          '100%': { height: '24px' },
         },
       },
     },
