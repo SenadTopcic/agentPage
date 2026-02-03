@@ -4,6 +4,7 @@ import { Phone, ArrowRight, Clock, User, Mic, MicOff, CheckCircle } from 'lucide
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 // RJEŠENJE 2: Notifikacija UNUTAR telefona (kao push notification)
 // - Prikazuje se kao iOS/Android style notification na vrhu ekrana telefona
@@ -12,6 +13,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Hero() {
   const { t } = useTranslation()
+  const { isRTL } = useLanguage()
   const [callDuration, setCallDuration] = useState(127)
   const [isMuted, setIsMuted] = useState(false)
   
@@ -63,12 +65,24 @@ export default function Hero() {
                 {t.nav.requestDemo}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </button>
-              <button
-                onClick={scrollToDemo}
-                className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg hover:border-gold hover:text-gold hover:bg-primary-50 transition-all duration-200 font-medium"
+              <a 
+                href="https://vanadium.solutions" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={`flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-gray-300 rounded-lg hover:border-gold hover:shadow-lg transition-all duration-300 bg-white ${isRTL ? 'flex-row-reverse' : ''}`}
               >
-                {t.nav.talkToSales}
-              </button>
+                <span className="text-gray-600 text-sm font-normal">by</span>
+                <div className={`flex items-center gap-1.5 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <Image 
+                    src="/images/logoVS-nobg.png" 
+                    alt="Vanadium Solutions" 
+                    width={32} 
+                    height={32} 
+                    className="object-contain"
+                  />
+                  <span className="text-gray-800 text-lg font-medium">Vanadium</span>
+                </div>
+              </a>
             </div>
           </div>
 
