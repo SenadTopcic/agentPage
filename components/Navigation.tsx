@@ -5,9 +5,11 @@ import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Navigation() {
   const { t } = useTranslation()
+  const { isRTL } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -43,7 +45,10 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
-          <div className="flex items-center gap-3">
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <Image 
               src="/images/logo.png" 
               alt="Ethan Logo" 
@@ -59,7 +64,7 @@ export default function Navigation() {
                 by Vanadium
               </span>
             </div>
-          </div>
+          </button>
 
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
@@ -86,7 +91,7 @@ export default function Navigation() {
             aria-label="Toggle menu"
             aria-expanded={isOpen}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={24} className="text-gray-700" /> : <Menu size={24} className="text-gray-700" />}
           </button>
         </div>
       </div>
@@ -98,7 +103,7 @@ export default function Navigation() {
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-gold rounded-lg transition-colors font-medium"
+                className={`block w-full px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-gold rounded-lg transition-colors font-medium ${isRTL ? 'text-right' : 'text-left'}`}
               >
                 {link.label}
               </button>

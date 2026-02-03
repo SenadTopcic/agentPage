@@ -122,8 +122,8 @@ export default function Industries() {
           {/* MOBILE LAYOUT */}
           <div className="lg:hidden bg-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
             
-            {/* Image - 30% of card */}
-            <div className="h-[30%] relative shrink-0">
+            {/* Image - 40% of card */}
+            <div className="h-[40%] relative shrink-0">
               {industries.map((industry, index) => (
                 <div
                   key={index}
@@ -162,8 +162,8 @@ export default function Industries() {
               </button>
             </div>
             
-            {/* Content - 55% of card */}
-            <div className="h-[55%] relative overflow-hidden shrink-0">
+            {/* Content - 40% of card */}
+            <div className="h-[40%] relative overflow-hidden shrink-0">
               {industries.map((industry, index) => {
                 const Icon = industry.icon
                 return (
