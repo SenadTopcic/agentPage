@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Send } from 'lucide-react'
+import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -37,7 +38,6 @@ export default function DemoForm() {
 
       if (response.ok) {
         alert(t.demo.successMessage)
-        // Reset form
         setFormData({
           companyName: '',
           contactEmail: '',
@@ -217,6 +217,14 @@ export default function DemoForm() {
               {isSubmitting ? 'Sending...' : t.demo.submit}
               <Send className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
             </button>
+
+            <p className="text-center text-xs text-gray-400">
+              {t.demo.submitConsent}{' '}
+              <Link href="/privacy-policy" className="text-amber-600 hover:text-amber-500 underline transition-colors">
+                {t.demo.submitConsentLink}
+              </Link>
+              .
+            </p>
           </form>
         </div>
       </div>

@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Inter, Cinzel } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
+import CookieConsent from '@/components/CookieConsent'
 
 const inter = Inter({ subsets: ['latin'] })
 const cinzel = Cinzel({ 
@@ -30,7 +33,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${cinzel.variable}`}>
         <LanguageProvider>
+          <Navigation />
           {children}
+          <Footer />
+          <CookieConsent />
         </LanguageProvider>
       </body>
     </html>
